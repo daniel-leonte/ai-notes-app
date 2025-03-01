@@ -1,0 +1,10 @@
+body {
+  font-family: Arial, sans-serif;
+}
+
+.page { display: none; } /* Hide all pages by default */
+.page.active { display: block; } /* Show active page */
+
+.back_button {
+  margin-bottom: 10px;
+}
