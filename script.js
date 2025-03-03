@@ -43,6 +43,8 @@ displayNotes();
 
 
 // === AI PART ===
+// https://github.com/tensorflow/tfjs-examples/blob/master/sentiment/README.md
+
 const url = {
   modelUrl: 'https://storage.googleapis.com/tfjs-models/tfjs/sentiment_cnn_v1/model.json',
   metadataUrl: 'https://storage.googleapis.com/tfjs-models/tfjs/sentiment_cnn_v1/metadata.json'
@@ -56,7 +58,7 @@ let model, metadata;
 async function loadModel(url) {
   try {
     model = await tf.loadLayersModel(url.modelUrl);
-    console.log(model)
+    console.log("model", model);
   } catch (err) {
     console.log(err);
   }
@@ -66,7 +68,7 @@ async function loadMetadata(url) {
   try {
     const metadataJson = await fetch(url.metadataUrl);
     metadata = await metadataJson.json();
-    console.log(metadata)
+    console.log("metadata", metadata);
   } catch (err) {
     console.log(err);
   }
@@ -107,7 +109,6 @@ const getSentimentScore = (text = document.getElementById('note-input').value) =
   console.log("inputText", inputText);
 
   const sequence = inputText.map(word => {
-    console.log(metadata);
     let wordIndex = metadata.word_index[word] + metadata.index_from;
     if (wordIndex > metadata.vocabulary_size) {
       wordIndex = OOV_INDEX;
@@ -117,7 +118,6 @@ const getSentimentScore = (text = document.getElementById('note-input').value) =
   console.log("sequence", sequence);
 
   const paddedSequence = padSequences([sequence], metadata.max_len);
-
   const input = tf.tensor2d(paddedSequence, [1, metadata.max_len]);
   console.log("tensorInput", input);
   
@@ -126,5 +126,6 @@ const getSentimentScore = (text = document.getElementById('note-input').value) =
   predictOut.dispose();
   
   console.log('score', score);
+  document.getElementById("sentiment-score").innerHTML = (score * 100).toFixed(2) + "% positive vibe";
   return score;
 }

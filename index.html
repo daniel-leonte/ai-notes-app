@@ -21,6 +21,8 @@
       <button class="back_button" type="button" onclick="saveNote()">Back</button>
       <textarea id="note-input" name="note" rows="50" cols="48"></textarea>
       <button class="sentiment_button" type="button" onclick="getSentimentScore()">Sentiment</button>
+      <p>Score: </p>
+      <span id="sentiment-score"></span>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
